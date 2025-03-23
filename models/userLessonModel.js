@@ -27,6 +27,14 @@ module.exports = {
           LEFT JOIN individual_lessons il ON sl.sublesson_id = il.sublesson_id
           WHERE ul.user_id = @userId;
         `);
+
+      // Parse groups as JSON before returning
+      result.recordset.forEach((lesson) => {
+        if (lesson.groups) {
+          lesson.groups = JSON.parse(lesson.groups); // Convert JSON string to array
+        }
+      });
+
       return result.recordset; // Return the query result
     } catch (error) {
       console.error("Error in getUserLessons:", error);

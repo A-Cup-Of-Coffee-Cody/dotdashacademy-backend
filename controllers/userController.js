@@ -2,11 +2,11 @@ const userService = require("../services/userService");
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { userId, username, email, password, call_sign } = req.body;
+    const { userId, username, /* email, */ password, call_sign } = req.body;
     const message = await userService.updateProfile(
       userId,
       username,
-      email,
+      // email, // Commented out but kept for future use
       password,
       call_sign
     );

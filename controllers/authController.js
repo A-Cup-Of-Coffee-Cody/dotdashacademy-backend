@@ -2,8 +2,10 @@ const authService = require("../services/authService");
 
 exports.signup = async (req, res) => {
   try {
-    const { username, password, email } = req.body;
-    const message = await authService.signup(username, password, email);
+    const { username, password /* email */ } = req.body;
+    // Commented out email usage as per request
+    // const message = await authService.signup(username, password, email);
+    const message = await authService.signup(username, password);
     res.status(201).json({ message });
   } catch (err) {
     console.error(err);

@@ -2,7 +2,12 @@ const bcrypt = require("bcryptjs");
 const moment = require("moment");
 const userModel = require("../models/userModel");
 
-exports.updateProfile = async (userId, username, email, password, callSign) => {
+exports.updateProfile = async (
+  userId,
+  username /*, email */,
+  password,
+  callSign
+) => {
   // Check if username / email / callsign exists
   const currentUser = await userModel.getUserById(userId);
 
@@ -11,10 +16,10 @@ exports.updateProfile = async (userId, username, email, password, callSign) => {
     if (existingUser) throw new Error("Username already taken");
   }
 
-  if (currentUser.email !== email) {
-    const existingEmail = await userModel.getUserByEmail(email);
-    if (existingEmail) throw new Error("Email already registered");
-  }
+  // if (currentUser.email !== email) { // Commented out but kept for future use
+  //   const existingEmail = await userModel.getUserByEmail(email);
+  //   if (existingEmail) throw new Error("Email already registered");
+  // }
 
   if (currentUser.callSign !== callSign) {
     if (callSign !== "") {
@@ -33,7 +38,7 @@ exports.updateProfile = async (userId, username, email, password, callSign) => {
   await userModel.updateUserProfile(
     userId,
     username,
-    email,
+    // email, // Commented out but kept for future use
     callSign,
     hashedPassword
   );
@@ -47,7 +52,7 @@ exports.getUserProfile = async (userId) => {
   return {
     user_id: userGet.user_id,
     username: userGet.username,
-    email: userGet.email,
+    // email: userGet.email, // Commented out but kept for future use
     call_sign: userGet.call_sign,
     login_streak: userGet.login_streak,
   };

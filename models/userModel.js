@@ -39,18 +39,18 @@ module.exports = {
     }
   },
 
-  getUserByEmail: async (email) => {
-    try {
-      const pool = await sql.connect(dbConfig); // Ensure connection
-      const result = await pool
-        .request()
-        .input("email", sql.VarChar, email)
-        .query("SELECT * FROM users WHERE email = @email");
-      return result.recordset[0]; // Return the first row
-    } catch (error) {
-      console.error("Error in getUserByEmail:", error);
-    }
-  },
+  // getUserByEmail: async (email) => { // Commented out but kept for future use
+  //   try {
+  //     const pool = await sql.connect(dbConfig); // Ensure connection
+  //     const result = await pool
+  //       .request()
+  //       .input("email", sql.VarChar, email)
+  //       .query("SELECT * FROM users WHERE email = @email");
+  //     return result.recordset[0]; // Return the first row
+  //   } catch (error) {
+  //     console.error("Error in getUserByEmail:", error);
+  //   }
+  // },
 
   getUserByCallSign: async (callSign) => {
     try {
@@ -65,34 +65,41 @@ module.exports = {
     }
   },
 
-  createUser: async (username, hashedPassword, email) => {
+  // createUser: async (username, hashedPassword, email) => { // Commented out but kept for future use
+  createUser: async (username, hashedPassword) => {
     try {
       const pool = await sql.connect(dbConfig); // Ensure connection
       await pool
         .request()
         .input("username", sql.VarChar, username)
         .input("hashedPassword", sql.VarChar, hashedPassword)
-        .input("email", sql.VarChar, email)
+        // .input("email", sql.VarChar, email) // Commented out but kept for future use
         .query(
-          "INSERT INTO users (username, password_hash, email) VALUES (@username, @hashedPassword, @email)"
+          // "INSERT INTO users (username, password_hash, email) VALUES (@username, @hashedPassword, @email)" // Commented out
+          "INSERT INTO users (username, password_hash) VALUES (@username, @hashedPassword)" // Without email
         );
     } catch (error) {
       console.error("Error in createUser:", error);
     }
   },
 
-  updateUserProfile: async (userId, username, email, callSign, password) => {
+  // updateUserProfile: async (userId, username, email, callSign, password) => { // Commented out but kept for future use
+  updateUserProfile: async (userId, username, callSign, password) => {
     try {
       const pool = await sql.connect(dbConfig); // Ensure connection
 
       let query =
-        "UPDATE users SET username = @username, email = @email, call_sign = @callSign";
+        "UPDATE users SET username = @username, call_sign = @callSign";
       const request = pool
         .request()
         .input("username", sql.VarChar, username)
-        .input("email", sql.VarChar, email)
         .input("callSign", sql.VarChar, callSign)
         .input("userId", sql.Int, userId);
+
+      // if (email) { // Commented out but kept for future use
+      //   query += ", email = @email";
+      //   request.input("email", sql.VarChar, email);
+      // }
 
       if (password) {
         query += ", password_hash = @password";

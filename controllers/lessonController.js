@@ -47,3 +47,32 @@ exports.getSubLessons = async (req, res) => {
     res.status(500).json({ message: err.message || "Database error" });
   }
 };
+
+exports.updateUserProgress = async (req, res) => {
+  try {
+    const { userId, individualLessonId, accuracy } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "Missing 'userId' parameter." });
+    }
+
+    if (!individualLessonId) {
+      return res
+        .status(400)
+        .json({ error: "Missing 'individualLessonId' parameter." });
+    }
+
+    if (accuracy === undefined) {
+      return res.status(400).json({ error: "Missing 'accuracy' parameter." });
+    }
+
+    const response = await lessonService.trackUserProgress(
+      userId,
+      individualLessonId,
+      accuracy
+    );
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

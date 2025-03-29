@@ -7,7 +7,7 @@ CREATE TABLE dotdashacademy.dbo.users (
     user_id INT IDENTITY(1,1) PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NULL UNIQUE, -- Change NOT NULL to NULL to allow null values
+    -- email VARCHAR(100) NULL UNIQUE, -- Current Not in use (PDPA Restrictions)
     date_created DATETIME2 DEFAULT GETDATE(),
     last_login DATETIME2 NULL,
     login_streak INT DEFAULT 0,
@@ -63,10 +63,12 @@ GO
 CREATE TABLE dotdashacademy.dbo.user_lessons (
     user_lesson_id INT IDENTITY(1,1) PRIMARY KEY,
     user_id INT NOT NULL,
-    sublesson_id INT NOT NULL,
+    -- sublesson_id INT NOT NULL,
+    individual_lesson_id INT NOT NULL,
     status VARCHAR(20) DEFAULT 'in_progress',
     FOREIGN KEY (user_id) REFERENCES dotdashacademy.dbo.users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (sublesson_id) REFERENCES dotdashacademy.dbo.sub_lessons(sublesson_id) ON DELETE CASCADE
+    -- FOREIGN KEY (sublesson_id) REFERENCES dotdashacademy.dbo.sub_lessons(sublesson_id) ON DELETE CASCADE
+    FOREIGN KEY (individual_lesson_id) REFERENCES dotdashacademy.dbo.individual_lessons(individual_lesson_id) ON DELETE CASCADE
 );
 GO
 

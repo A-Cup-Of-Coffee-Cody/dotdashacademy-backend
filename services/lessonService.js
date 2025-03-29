@@ -24,3 +24,12 @@ exports.getAllLessons = async (userId) => {
 exports.getSubLessons = async (lessonId) => {
   return await userLessonModel.getSubLessons(lessonId);
 };
+
+exports.trackUserProgress = async (userId, individualLessonId, accuracy) => {
+  if (!userId || !individualLessonId || accuracy === undefined) {
+    throw new Error("Missing required parameters.");
+  }
+
+  await userLessonModel.updateUserProgress(userId, individualLessonId, accuracy);
+  return { message: "User progress updated successfully." };
+};

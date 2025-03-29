@@ -67,7 +67,22 @@ module.exports = {
     }
   },
 
-  getUserProgress: async (userId, individualLessonId) => {
+  getUserProgress: async (userId) => {
+    const pool = await connectToDB(); // Ensure connection
+    try {
+      const result = await pool.request().input("userId", sql.Int, userId)
+        .query(`
+          SELECT * FROM user_progress WHERE user_id = @userId;
+        `);
+      return result.recordset; // Return the query result
+    } catch (error) {
+      console.error("Error in getUserProgress:", error);
+    } finally {
+      pool.close(); // Close the connection pool after the query
+    }
+  },
+
+  getUserProgressByIndividualLessonId: async (userId, individualLessonId) => {
     const pool = await connectToDB(); // Ensure connection
     try {
       const result = await pool
@@ -78,17 +93,18 @@ module.exports = {
         `);
       return result.recordset.length ? result.recordset[0] : null;
     } catch (error) {
-      console.error("Error in getUserProgress:", error);
+      console.error("Error in getUserProgressByIndividualLessonId:", error);
     } finally {
       pool.close(); // Close the connection pool after the query
     }
   },
 
   updateUserProgress: async (userId, individualLessonId, accuracy) => {
-    const existingProgress = await module.exports.getUserProgress(
-      userId,
-      individualLessonId
-    );
+    const existingProgress =
+      await module.exports.getUserProgressByIndividualLessonId(
+        userId,
+        individualLessonId
+      );
 
     const pool = await connectToDB(); // Ensure connection
     try {

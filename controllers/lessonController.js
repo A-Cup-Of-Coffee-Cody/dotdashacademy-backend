@@ -48,6 +48,21 @@ exports.getSubLessons = async (req, res) => {
   }
 };
 
+exports.getUserProgress = async (req, res) => {
+  try {
+    const userId = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "Missing 'userId' parameter." });
+    }
+
+    const response = await lessonService.getUserProgress(userId);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.updateUserProgress = async (req, res) => {
   try {
     const { userId, individualLessonId, accuracy } = req.body;

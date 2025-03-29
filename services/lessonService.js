@@ -25,11 +25,24 @@ exports.getSubLessons = async (lessonId) => {
   return await userLessonModel.getSubLessons(lessonId);
 };
 
+exports.getUserProgress = async (userId) => {
+  if (!userId) {
+    return res.status(400).json({ error: "Missing 'userId' parameter." });
+  }
+
+  const userProgress = await userLessonModel.getUserProgress(userId);
+  return userProgress;
+};
+
 exports.trackUserProgress = async (userId, individualLessonId, accuracy) => {
   if (!userId || !individualLessonId || accuracy === undefined) {
     throw new Error("Missing required parameters.");
   }
 
-  await userLessonModel.updateUserProgress(userId, individualLessonId, accuracy);
+  await userLessonModel.updateUserProgress(
+    userId,
+    individualLessonId,
+    accuracy
+  );
   return { message: "User progress updated successfully." };
 };

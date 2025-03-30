@@ -72,7 +72,24 @@ module.exports = {
     try {
       const result = await pool.request().input("userId", sql.Int, userId)
         .query(`
-          SELECT * FROM user_progress WHERE user_id = @userId;
+          SELECT 
+            l.title AS lesson_title,
+            s.wpm AS sublesson_wpm,
+            i.lesson_number AS individual_lesson_number,
+            up.progress_percentage,
+            up.last_updated
+          FROM user_progress up
+          JOIN individual_lessons i ON up.individual_lesson_id = i.individual_lesson_id
+          JOIN sub_lessons s ON i.sublesson_id = s.sublesson_id
+          JOIN lessons l ON s.lesson_id = l.lesson_id
+          WHERE up.user_id = @userId
+          AND up.last_updated = (
+            SELECT MAX(up2.last_updated)
+            FROM user_progress up2
+            WHERE up2.individual_lesson_id = up.individual_lesson_id
+            AND up2.user_id = up.user_id
+          )
+          ORDER BY up.last_updated DESC;
         `);
       return result.recordset; // Return the query result
     } catch (error) {

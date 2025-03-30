@@ -50,7 +50,7 @@ exports.getSubLessons = async (req, res) => {
 
 exports.getUserProgress = async (req, res) => {
   try {
-    const userId = req.body;
+    const { userId } = req.body;
 
     if (!userId) {
       return res.status(400).json({ error: "Missing 'userId' parameter." });

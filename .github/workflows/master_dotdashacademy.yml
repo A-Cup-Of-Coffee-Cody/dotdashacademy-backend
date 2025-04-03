@@ -21,12 +21,13 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: "22.x"
+          node-version: '22.x'
 
-      - name: npm install and build
+      - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -41,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: "Production"
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -55,18 +56,19 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1707B66811594E6AAC625AE4D73AD6CE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EC56E6E3F8124DE985DBD7019AA171B3 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_8A7BEA9D2F284A19B767F49EE132D5BB }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8615D687CAB84E9297DB05D3C1C4CFF6 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_13BBFA3C83E7469A943CA88208F4C1D8 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9B3A16E6653944C289682B3BA3CB4F85 }}
 
-      - name: "Deploy to Azure Web App"
+      - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: "dotdashacademy"
-          slot-name: "Production"
+          app-name: 'dotdashacademy'
+          slot-name: 'Production'
           package: .
+          

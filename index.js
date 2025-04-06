@@ -8,6 +8,7 @@ const PORT = 8080;
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
+const feedbackRoutes = require('./routes/feedbackRoutes');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/lesson", lessonRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 // Start Server
 app.listen(PORT, () => {

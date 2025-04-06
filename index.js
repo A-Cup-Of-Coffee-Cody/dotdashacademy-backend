@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("DotDashAcademy Backend is Functional!");
+  res.sendFile(__dirname + "/public/index.html"); // Path to your HTML file
 });
 
 // Route registration

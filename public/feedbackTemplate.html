@@ -1,0 +1,110 @@
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3f72af;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #3f72af;
+            border-bottom: 2px solid #3f72af;
+            padding-bottom: 5px;
+        }
+
+        .section p {
+            font-weight: 600;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 6px;
+            color: #1e1e1e;
+        }
+
+        .section strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .recommendation {
+            background-color: #e0e0e0;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .recommendation span {
+            font-weight: bold;
+            color: #3f72af;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎉 New Feedback Received!</h1>
+        <div class="section">
+            <h2>Feedback Type</h2>
+            <p>{{feedbackType}}</p>
+        </div>
+
+        <div class="section">
+            <h2>Experience</h2>
+            <p>{{experience}}</p>
+        </div>
+
+        <div class="section">
+            <h2>Issues Encountered</h2>
+            <p>{{issues}}</p>
+        </div>
+
+        <div class="section">
+            <h2>Suggestions</h2>
+            <p>{{suggestions}}</p>
+        </div>
+
+        <div class="section recommendation">
+            <h2>Recommendation</h2>
+            <p>Rating: <span>{{recommendation}} / 5</span></p>
+        </div>
+    </div>
+</body>
+
+</html>

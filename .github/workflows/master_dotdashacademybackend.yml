@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - dotdashacademy
+name: Build and deploy Node.js app to Azure Web App - dotdashacademyBackend
 
 on:
   push:
@@ -23,10 +23,11 @@ jobs:
         with:
           node-version: "22.x"
 
-      - name: npm install and build
+      - name: npm install, build, and test
         run: |
           npm install
           npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -59,14 +60,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1707B66811594E6AAC625AE4D73AD6CE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EC56E6E3F8124DE985DBD7019AA171B3 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_8A7BEA9D2F284A19B767F49EE132D5BB }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3A3EBBA8A4824AB4B9B74931D9B4215F }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8D4D737042264472B9C004658052803C }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3C898B1DEFCA448BB257751887B25C69 }}
 
       - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: "dotdashacademy"
+          app-name: "dotdashacademyBackend"
           slot-name: "Production"
           package: .
